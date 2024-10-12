@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Adjective Endings Practice</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+  }
+  .container {
+    width: 80%;
+    max-width: 500px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .sentence {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  .button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    width: calc(50% - 10px);
+    color: #202020;
+    background-color: #e2f7ff;
+    border: none;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+  }
+/*  .button:hover {
+    background-color: #bde4f7;
+  }*/
+  #result {
+    font-size: 20px;
+    height: 50px; /* fixed height for the result message */
+    line-height: 50px; /* align the text vertically */
+    margin-top: 20px;
+    overflow: hidden; /* prevents the div from expanding if the content is too large */
+  }
+
+  .sentence {
+    font-size: 24px;
+    margin: 20px 0;
+    min-height: 50px; /* minimum height to accommodate wrapped text */
+  }
+  .correct {
+    color: limegreen;
+  }
+  .incorrect {
+    color: red;
+  }
+</style>
+<script src="sentences.js"></script>
+</head>
+<body>
+<div class="container">
+  <select id="caseSelection" onchange="changeCase(this.value)">
+      <option value="nominative">Nominativ</option>
+      <option value="accusative">Akkusativ</option>
+      <option value="dative">Dativ</option>
+      <option value="genitive">Genitiv</option>
+  </select>
+  <div id="sentence" class="sentence">
+      Sie ist eine schön___ Frau.
+  </div>
+  <div id="result"></div>  
+  <div id="choices">
+      <button class="button" onclick="selectEnding('e', 1)">-e</button>
+      <button class="button" onclick="selectEnding('es', 1)">-es</button>
+      <button class="button" onclick="selectEnding('er', 1)">-er</button>
+      <button class="button" onclick="selectEnding('em', 1)">-em</button>
+      <button class="button" onclick="selectEnding('en', 1)">-en</button>
+      <button class="button" onclick="selectEnding('', 1)">-</button>
+  </div>
+</div>
+
+<script>
+// let sentencesByCase = {
+//   nominative: [
+//     { text: "Der alt___ Mann ist Zuhause.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Das neu___ Auto ist schnell.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Die klein___ Katze schläft.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Das groß___ Haus ist leer.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Die jung___ Frau ist Ärztin.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Der alt___ Mann ist Zuhause.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Ein dunkel___ Himmel kündigt Regen an.", blanks: [1], correctEndings: ["er"] },
+//     { text: "Die bunt___ Blumen duften schön.", blanks: [1], correctEndings: ["en"] },
+//     { text: "Der klein___ Hund bellt.", blanks: [1], correctEndings: ["e"] },
+//     { text: "Ein alt___ Baum steht im Garten.", blanks: [1], correctEndings: ["er"] },
+//     { text: "Die rund___ Uhr hängt an der Wand.", blanks: [1], correctEndings: ["e"] }
+//     // ... more nominative sentences
+//   ],
+//   accusative: [
+//     { text: "Ich sehe den alt___ Mann.", blanks: [1], correctEndings: ["en"] },
+//     // ... more accusative sentences
+//   ],
+//   dative: [
+//     { text: "Ich gebe dem alt___ Mann ein Buch.", blanks: [1], correctEndings: ["en"] },
+//     // ... more dative sentences
+//   ],
+//   genitive: [
+//     { text: "Die Tasche des alt___ Mannes ist schwer.", blanks: [1], correctEndings: ["en"] },
+//     // ... more genitive sentences
+//   ]
+// };
+
+let currentCase = 'nominative';
+// let currentSentenceIndex = 0;
+let sentences = sentencesByCase[currentCase];
+
+function changeCase(newCase) {
+  currentCase = newCase;
+  sentences = [...sentencesByCase[newCase]]; // Create a new copy of the sentences array
+  document.getElementById('choices').style.display = 'block'; // Ensure choices are shown
+  nextSentence(); // Update the display with the first sentence of the new case
+}
+
+// let currentSentenceIndex = 0;
+
+let currentSentence; // This variable will hold the currently displayed sentence object
+
+function selectEnding(ending, position) {
+  // Check if the selected ending is correct for the position
+  if (currentSentence.correctEndings[position - 1] === ending) {
+    let sentenceWithEnding = currentSentence.text.replace('___', ending);
+    document.getElementById('sentence').innerHTML = sentenceWithEnding;
+    document.getElementById('result').textContent = "Richtig!";
+    setTimeout(nextSentence, 2000); // Wait for 2 seconds before going to the next sentence
+  } else {
+    document.getElementById('result').textContent = "Leider falsch. Versuche es noch einmal!";
+  }
+}
+
+function nextSentence() {
+  if (sentences.length > 0) {
+    let randomIndex = Math.floor(Math.random() * sentences.length);
+    currentSentence = sentences[randomIndex]; // Update the currentSentence with the selected sentence
+    document.getElementById('sentence').innerHTML = currentSentence.text;
+    document.getElementById('result').textContent = "";
+    sentences.splice(randomIndex, 1); // Remove the used sentence from the array
+  } else {
+    document.getElementById('sentence').textContent = "Glückwunsch! Du bist fertig mit allen Sätzen.";
+    document.getElementById('choices').style.display = 'none';
+  }
+}
+
+
+// Initialize the first sentence
+nextSentence();
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Noun Gender Quiz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    width: 300px;
+    margin: 120px auto;
+    text-align: center;
+  }
+  .noun {
+    font-size: 50px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .button {
+    margin: 10px 0;
+    padding: 20px 0;
+    cursor: pointer;
+    font-size: 32px;
+    width: 100%;
+    color: #202020;
+    background-color: #e2f7ff;
+    border-color: #e2f7ff;
+    border-radius: 15px;
+  }
+
+
+  #result {
+    font-size: 30px;
+  }
+
+  .incorrect {
+    color: red;
+  }
+
+  .correct {
+    color: limegreen;
+  }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="noun" class="noun">Haus</div>
+  <button class="button" onclick="checkAnswer('das')">das</button>
+  <button class="button" onclick="checkAnswer('die')">die</button>
+  <button class="button" onclick="checkAnswer('der')">der</button>
+  <div id="result"></div>
+</div>
+
+<script>
+const nouns = {
+'Hund': 'der',
+'Katze': 'die',
+'Auto': 'das',
+'Haus': 'das',
+'Apfel': 'der',
+'Baum': 'der',
+'Blume': 'die',
+'Ente': 'die',
+'Glas': 'das',
+'Uhr': 'die',
+'Mädchen': 'das',
+'Junge': 'der',
+'Mann': 'der',
+'Frau': 'die',
+'Kind': 'das',
+'Freund': 'der',
+'Freundin': 'die',
+'Vater': 'der',
+'Mutter': 'die',
+'Bruder': 'der',
+'Schwester': 'die',
+'Oma': 'die',
+'Opa': 'der',
+'Sohn': 'der',
+'Tochter': 'die',
+'Onkel': 'der',
+'Tante': 'die',
+'Lehrer': 'der',
+'Lehrerin': 'die',
+'Schüler': 'der',
+'Schülerin': 'die',
+'Arzt': 'der',
+'Ärztin': 'die',
+'Krankenschwester': 'die',
+'Krankenpfleger': 'der',
+'Polizist': 'der',
+'Polizistin': 'die',
+'Koch': 'der',
+'Köchin': 'die',
+'Ingenieur': 'der',
+'Ingenieurin': 'die',
+'Fahrer': 'der',
+'Fahrerin': 'die',
+'Künstler': 'der',
+'Künstlerin': 'die',
+'Musiker': 'der',
+'Musikerin': 'die',
+'Sänger': 'der',
+'Sängerin': 'die',
+'Tänzer': 'der',
+'Tänzerin': 'die',
+'Schauspieler': 'der',
+'Schauspielerin': 'die',
+'Autor': 'der',
+'Autorin': 'die',
+'Journalist': 'der',
+'Journalistin': 'die',
+'Anwalt': 'der',
+'Anwältin': 'die',
+'Richter': 'der',
+'Richterin': 'die',
+'Bäcker': 'der',
+'Bäckerin': 'die',
+'Metzger': 'der',
+'Metzgerin': 'die',
+'Friseur': 'der',
+'Friseurin': 'die',
+'Mechaniker': 'der',
+'Mechanikerin': 'die',
+'Elektriker': 'der',
+'Elektrikerin': 'die',
+'Bauer': 'der',
+'Bäuerin': 'die',
+'Gärtner': 'der',
+'Gärtnerin': 'die',
+'Kellner': 'der',
+'Kellnerin': 'die',
+'Chef': 'der',
+'Chefin': 'die',
+'Minister': 'der',
+'Ministerin': 'die',
+'Schriftsteller': 'der',
+'Schriftstellerin': 'die',
+'Auto': 'das',
+'Straße': 'die',
+'Buch': 'das',
+'Stuhl': 'der',
+'Tisch': 'der',
+'Bett': 'das',
+'Tür': 'die',
+'Fenster': 'das',
+'Bild': 'das',
+'Schule': 'die',
+'Universität': 'die',
+'Kirche': 'die',
+'Krankenhaus': 'das',
+'Flughafen': 'der',
+'Bahnhof': 'der',
+'Zug': 'der',
+'Bus': 'der',
+'Schiff': 'das',
+'Fahrrad': 'das',
+'Laden': 'der',
+'Supermarkt': 'der',
+'Markt': 'der',
+'Restaurant': 'das',
+'Café': 'das',
+'Hotel': 'das',
+'Krankenhaus': 'das',
+'Apotheke': 'die',
+'Bibliothek': 'die',
+'Polizei': 'die',
+'Feuerwehr': 'die',
+'Bank': 'die',
+'Post': 'die',
+'Schule': 'die',
+'Universität': 'die',
+'Geschäft': 'das',
+'Büro': 'das',
+'Firma': 'die',
+'Fabrik': 'die',
+'Kirche': 'die',
+'Moschee': 'die',
+'Synagoge': 'die',
+'Tempel': 'der',
+'Museum': 'das',
+'Kino': 'das',
+'Theater': 'das',
+'Oper': 'die',
+'Konzerthalle': 'die',
+'Park': 'der',
+'Garten': 'der',
+'Wald': 'der',
+'Fluss': 'der',
+'See': 'der',
+'Meer': 'das',
+'Strand': 'der',
+'Berg': 'der',
+'Tal': 'das',
+'Insel': 'die',
+'Halbinsel': 'die',
+'Wüste': 'die',
+'Natur': 'die',
+'Umgebung': 'die',
+'Tier': 'das',
+'Pflanze': 'die',
+'Blatt': 'das',
+'Wurzel': 'die',
+'Blüte': 'die',
+'Zweig': 'der',
+'Stein': 'der',
+'Weg': 'der',
+'Berg': 'der',
+'Himmel': 'der',
+'Stern': 'der',
+'Planet': 'der',
+'Sonne': 'die',
+'Mond': 'der',
+'Erde': 'die',
+'Wasser': 'das',
+'Feuer': 'das',
+'Luft': 'die',
+'Eis': 'das',
+'Wind': 'der',
+'Wetter': 'das',
+'Hitze': 'die',
+'Kälte': 'die',
+'Regen': 'der',
+'Schnee': 'der',
+'Eis': 'das',
+'Nebel': 'der',
+'Sturm': 'der',
+'Blitz': 'der',
+'Donner': 'der',
+'Wolke': 'die',
+'Klima': 'das',
+'Jahreszeit': 'die',
+'Frühling': 'der',
+'Sommer': 'der',
+'Herbst': 'der',
+'Winter': 'der',
+
+  // Add more nouns and their articles here
+};
+let currentNoun = 'Haus';
+
+function checkAnswer(article) {
+  const correctArticle = nouns[currentNoun];
+  const resultDiv = document.getElementById('result');
+  // Remove existing classes
+  resultDiv.classList.remove('correct', 'incorrect');
+  if (article === correctArticle) {
+    resultDiv.innerHTML = correctArticle + ' ' + currentNoun;
+    resultDiv.classList.add('correct'); // Add class for correct answer
+  } else {
+    resultDiv.innerHTML = correctArticle + ' ' + currentNoun;
+    resultDiv.classList.add('incorrect'); // Add class for incorrect answer
+  }
+  // Update to the next noun after a short delay
+  setTimeout(nextNoun, 2000);
+}
+
+
+function nextNoun() {
+  const nounKeys = Object.keys(nouns);
+  currentNoun = nounKeys[Math.floor(Math.random() * nounKeys.length)];
+  document.getElementById('noun').innerText = currentNoun;
+  document.getElementById('result').innerHTML = '';
+}
+
+// Initialize with the first noun
+nextNoun();
+</script>
+</body>
+</html>

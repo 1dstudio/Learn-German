@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Vocabulary Practice</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+/*    overflow-wrap: break-word;*/
+  }
+
+  .container {
+    width: 300px;
+    margin: 10px auto;
+    text-align: center;
+  }
+  #word {
+    font-size: 50px;
+    text-align: center;
+    margin: 100px 0;
+  }
+  #nextButton {
+    margin: 10px 0;
+    padding: 100px 0;
+    cursor: pointer;
+    font-size: 32px;
+    width: 100%;
+    color: #202020;
+    background-color: #e2f7ff;
+    border-color: #e2f7ff;
+    border-radius: 15px;
+  }
+</style>
+</head>
+<body>
+
+<div id="word"></div>
+<!-- Removed the #definition div -->
+<button id="nextButton">Show English</button>
+
+<script>
+let currentWordIndex = -1;
+let vocabulary = [
+{ german: 'der Apfel', english: 'apple' },
+{ german: 'der Baum', english: 'tree' },
+{ german: 'die Berührung', english: 'touch' },
+{ german: 'der Zweck', english: 'purpose' },
+{ german: 'tröstender', english: 'more comforting' },
+{ german: 'der Vorwurf', english: 'accusation' },
+{ german: 'aufgebracht', english: 'upset' },
+{ german: 'fürchtete', english: 'feared' },
+{ german: 'aufgehalten', english: 'stopped' },
+{ german: 'mutmaßen', english: 'to suspect' },
+{ german: 'ähneln', english: 'to resemble' },
+{ german: 'umsichtig', english: 'prudent' },
+{ german: 'geborgt', english: 'borrowed' },
+{ german: 'tadelloser', english: 'impeccable' },
+{ german: 'die Verzeihung', english: 'forgiveness' },
+{ german: 'wischte', english: 'wiped' },
+{ german: 'dürr', english: 'gaunt' },
+{ german: 'die Perücke', english: 'wig' },
+{ german: 'Er zog eine schnute', english: 'He pouted' },
+{ german: 'albern', english: 'silly' },
+{ german: 'merkwürdige', english: 'strange' },
+{ german: 'verdutzt', english: 'perplexed' },
+{ german: 'zwinkerte', english: 'winked' },
+{ german: 'vorknöpfte', english: 'confronted' },
+{ german: 'elende', english: 'miserable' },
+{ german: 'übel', english: 'nausea' },
+{ german: 'schweigsam', english: 'silent' },
+{ german: 'düsterer', english: 'more gloomy' },
+{ german: 'zustellen', english: 'to deliver' },
+{ german: 'schnaubte', english: 'snorted' },
+{ german: 'Nu mal langsam!', english: 'Now, slow down!' },
+{ german: 'die Entrüstung', english: 'outrage' },
+{ german: 'die Ausrüstungsgegenstände', english: 'equipment items' },
+{ german: 'neugierig', english: 'curious' },
+{ german: 'verwandelt', english: 'transformed' },
+{ german: 'drängend', english: 'urgent' },
+{ german: 'fürchten', english: 'to fear' },
+{ german: 'erwischen', english: 'to catch' },
+{ german: 'berührt', english: 'touched' },
+{ german: 'betrachtete', english: 'considered' },
+{ german: 'fürchterlichen', english: 'terrible' },
+{ german: 'wandte', english: 'turned' },
+{ german: 'üblich', english: 'usual' },
+{ german: 'die Verwandlungen', english: 'transformations' },
+{ german: 'schwindelig', english: 'dizzy' },
+{ german: 'das Verlies', english: 'dungeon' },
+{ german: 'fürchterlich', english: 'terrible' },
+{ german: 'das Flattern', english: 'flutter' },
+{ german: 'die Verzeihung', english: 'forgiveness' },
+{ german: 'mürrisch', english: 'grumpy' },
+{ german: 'erwähnt', english: 'mentioned' },
+{ german: 'allemal', english: 'always' },
+{ german: 'erhoben', english: 'raised' },
+{ german: 'der Efeu', english: 'ivy' },
+{ german: 'unablässig', english: 'incessant' },
+{ german: 'aufgelegt', english: 'in the mood' },
+{ german: 'stöhnte', english: 'groaned' },
+{ german: 'vermutet', english: 'suspected' },
+{ german: 'albernes', english: 'silly' },
+{ german: 'brausen', english: 'roar' },
+{ german: 'mokierten', english: 'mocked' },
+{ german: 'auftauchte', english: 'appeared' },
+{ german: 'gelungenen', english: 'successful' },
+{ german: 'erwischt', english: 'caught' },
+{ german: 'lauern', english: 'to lurk' },
+{ german: 'lauschen', english: 'to eavesdrop' },
+{ german: 'entrüstet', english: 'indignant' },
+{ german: 'erpicht', english: 'eager' },
+{ german: 'der Aufwand', english: 'effort' },
+{ german: 'das Vergnügen', english: 'pleasure' },
+{ german: 'die Belohnung', english: 'reward' },
+{ german: 'die Dämmerung', english: 'twilight' },
+{ german: 'gewöhnlichen', english: 'ordinary' },
+{ german: 'verkündete', english: 'announced' },
+{ german: 'angeblich', english: 'alleged' },
+{ german: 'zerren', english: 'to drag' },
+{ german: 'herunterreißen', english: 'to tear down' },
+{ german: 'Es konnte losgehen', english: 'It could start' },
+{ german: 'ellendick', english: 'very thick' },
+{ german: 'kicherten', english: 'giggled' },
+{ german: 'strebsam', english: 'ambitious' },
+{ german: 'zeitgenössischer', english: 'contemporary' },
+{ german: 'die Ratschläge', english: 'advice' },
+{ german: 'erstickt', english: 'suffocated' },
+{ german: 'klagen', english: 'to complain' },
+{ german: 'merkwürdig', english: 'strange' },
+{ german: 'überzeugt', english: 'convinced' },
+{ german: 'das Entsetzen', english: 'horror' },
+{ german: 'die Berichte', english: 'reports' },
+{ german: 'erzeugt', english: 'generated' },
+{ german: 'aufschneiderisch', english: 'boastful' },
+{ german: 'vortrefflich', english: 'excellent' },
+{ german: 'geschehen', english: 'happened' },
+{ german: 'verwiesen', english: 'referred' },
+{ german: 'gen', english: 'towards' },
+{ german: 'ungewöhnlich', english: 'unusual' },
+{ german: 'birgt', english: 'harbors' },
+{ german: 'die Wesen', english: 'creatures' },
+{ german: 'gemeuchelt', english: 'murdered' }
+
+
+  // ... Add more words here
+];
+
+function showNextWord() {
+  currentWordIndex = Math.floor(Math.random() * vocabulary.length);
+  document.getElementById('word').textContent = vocabulary[currentWordIndex].german;
+  document.getElementById('nextButton').textContent = '?';
+  document.getElementById('nextButton').style.display = 'block';
+}
+
+function showDefinition() {
+  // Changed the target from #definition textContent to #nextButton textContent
+  document.getElementById('nextButton').textContent = vocabulary[currentWordIndex].english;
+}
+
+document.getElementById('nextButton').addEventListener('click', function() {
+  if(this.textContent === '?'){
+    showDefinition();
+  } else {
+    showNextWord();
+  }
+});
+
+// This function is called immediately to show the first German word
+showNextWord();
+</script>
+
+</body>
+</html>
